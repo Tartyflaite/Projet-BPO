@@ -92,5 +92,18 @@ public class Joueur {
 		}
 	}
 	
+	public boolean aPerdu(Joueur j) {
+		int cartesJouables=0;
+		for(int i:hand) {
+			if(!this.estJouable(j,i)) {
+				++cartesJouables;
+			}
+		}
+		return cartesJouables<2;
+	}
+	
+	public boolean aGagné() {
+		return hand.size()==0 && deck.size()==0;
+	}
 	
 }
