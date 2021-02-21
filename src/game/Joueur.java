@@ -4,40 +4,49 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Joueur {
-	private ArrayList<Integer> deck;
-	private ArrayList<Integer> hand;
-	private int pileAsc; // pile ascendante
-	private int pileDsc; // pile descendante
+	private ArrayList<Carte> deck;
+	private ArrayList<Carte> hand;
+	private Carte pileAsc; // pile ascendante
+	private Carte pileDsc; // pile descendante
 	private String nom;
 	
 	
+	public Joueur(String nom) {
+		this.deck= new ArrayList<>();
+		for(int i=2;i<60;++i) {
+			this.deck.add(new Carte(i));
+		}
+		this.hand= new ArrayList<>();
+		this.pileAsc= new Carte(1);
+		this.pileDsc= new Carte(60);
+		this.nom=nom;
+	}
+	
+	public Carte getPileAsc() {
+		return pileAsc;
+	}
+	
+	public Carte getPileDsc() {
+		return pileDsc;
+	}
 	
 	public String toString() {
 		StringBuilder sb= new StringBuilder();
 		sb.append(this.nom+" ");
-		sb.append("^["+pileAsc+"] ");
-		sb.append("v["+pileDsc+"] ");
+		sb.append("^["+pileAsc.getValeur()+"] ");
+		sb.append("v["+pileDsc.getValeur()+"] ");
 		sb.append("(m"+this.hand.size());
 		sb.append("p"+this.deck.size()+")");
 		return sb.toString();
 	}
 	
-	public Joueur(String nom) {
-		this.deck= new ArrayList<>();
-		for(int i=2;i<60;++i) {
-			this.deck.add(i);
-		}
-		this.hand= new ArrayList<>();
-		this.pileAsc=1;
-		this.pileDsc=60;
-		this.nom=nom;
-	}
+
 	
 	public String piocher(int nb_cartes) {
 		int i;
 		Random pioche = new Random();
 		for(i=0; i<nb_cartes && this.deck.size()>0;++i) {
-			int carte= deck.get(pioche.nextInt(this.deck.size()));
+			Carte carte= deck.get(pioche.nextInt(this.deck.size()));
 			hand.add(carte);
 			deck.remove(carte);
 		}
@@ -45,32 +54,13 @@ public class Joueur {
 
 	}
 	
-	public boolean isInHand(int carte) {
+	public boolean isInHand(Carte carte) {
 		return hand.contains(carte);
 	}
 	
-	public boolean estJouable(Joueur j,int carte) {
-		
-		return this.estJouableAsc(carte) || this.estJouableDsc(carte) || this.estJouableAscAdv(j, carte) || this.estJouableDscAdv(j, carte);
-	}
+
 	
-	public boolean estJouableAsc(int carte) {
-		return (carte>pileAsc) || (carte==pileAsc-10);
-	}
-	
-	public boolean estJouableDsc(int carte) {
-		return (carte<pileDsc) || (carte==pileDsc+10);
-	}
-	
-	public boolean estJouableAscAdv(Joueur j,int carte) {
-		return (carte<j.pileAsc);
-	}
-	
-	public boolean estJouableDscAdv(Joueur j,int carte) {
-		return (carte>j.pileDsc);
-	}
-	
-	public void placerAsc(Joueur j, int carte) {
+	public void placerAsc(Joueur j, Carte carte) {
 		if(this.equals(j)) {
 			this.pileAsc=carte;
 			this.hand.remove(carte);
@@ -81,7 +71,7 @@ public class Joueur {
 		}
 	}
 	
-	public void placerDsc(Joueur j, int carte) {
+	public void placerDsc(Joueur j, Carte carte) {
 		if(this.equals(j)) {
 			this.pileDsc=carte;
 			this.hand.remove(carte);
@@ -94,8 +84,8 @@ public class Joueur {
 	
 	public boolean aPerdu(Joueur j) {
 		int cartesJouables=0;
-		for(int i:hand) {
-			if(!this.estJouable(j,i)) {
+		for(Carte i:hand) {
+			if(!i.estJouable(this,j)) {
 				++cartesJouables;
 			}
 		}
