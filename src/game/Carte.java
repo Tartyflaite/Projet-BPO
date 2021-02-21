@@ -17,8 +17,6 @@ public class Carte {
 		return this.estJouableAsc(j) || this.estJouableDsc(j) || this.estJouableAscAdv(adv) || this.estJouableDscAdv(adv);
 	}
 	
-	
-	
 	public boolean estJouableAsc(Joueur j) {
 		return (this.valeur>j.getPileAsc().valeur) || (this.valeur==j.getPileAsc().valeur-10);
 	}
