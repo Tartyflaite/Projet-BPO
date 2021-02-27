@@ -83,13 +83,52 @@ public class Joueur {
 	}
 	
 	public boolean aPerdu(Joueur j) {
-		int cartesJouables=0;
+		boolean cartesJouables=true;
+		Carte temp;
 		for(Carte i:hand) {
-			if(!i.estJouable(this,j)) {
-				++cartesJouables;
+			if(i.estJouable(this,j)) {
+				if(cartesJouables && i.estJouableAsc(this)) {
+					temp=pileAsc;
+					this.placerAsc(this, i);
+					cartesJouables=this.mainJouabletier2(j, i);
+					this.placerAsc(this, temp);
+				}
+				if(cartesJouables && i.estJouableDsc(this)) {
+					temp=pileDsc;
+					this.placerDsc(this, i);
+					cartesJouables=this.mainJouabletier2(j, i);
+					this.placerDsc(this, temp);
+					
+				}
+				if(cartesJouables && i.estJouableAscAdv(j)) {
+					temp=j.pileAsc;
+					this.placerAsc(j, i);
+					cartesJouables=this.mainJouabletier2(j, i);
+					this.placerAsc(j, temp);
+					
+				}
+				if(cartesJouables && i.estJouableDscAdv(j)) {
+					temp=j.pileDsc;
+					this.placerAsc(j, i);
+					cartesJouables=this.mainJouabletier2(j, i);
+					this.placerAsc(j, temp);
+				}
+				
 			}
 		}
-		return cartesJouables<2;
+		return cartesJouables;
+	}
+	
+	private boolean mainJouabletier2(Joueur j, Carte i) {
+		for(Carte k:hand) {
+			if(i==k) {
+				continue;
+			}
+			if(k.estJouable(this,j)) {
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	public boolean aGagné() {

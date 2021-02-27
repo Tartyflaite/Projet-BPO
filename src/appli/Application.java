@@ -20,17 +20,16 @@ public class Application {
 		System.out.print("> ");
 		s = sc.nextLine();
 		while (!s.equals("fin")) {
-			décompose(s);
+			traitement(s);
 			System.out.print("> ");
 			s = sc.nextLine();
 		}
 	}
 	
 	
-	private static void décompose(String s) {
+	private static void traitement(String s) {
 		String[] tab = s.split("\\s+");
-		for (String mot : tab)
-			System.out.println(mot);
+		
 	}
 	
 	
