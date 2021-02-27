@@ -40,6 +40,17 @@ public class Joueur {
 		return sb.toString();
 	}
 	
+	public String toStringHand() {
+		StringBuilder sb= new StringBuilder();
+		sb.append("cartes ");
+		sb.append(this.nom);
+		sb.append(" { ");
+		for(Carte c:hand) {
+			sb.append(c.getValeur()+" ");
+		}
+		sb.append("}");
+		return sb.toString();
+	}
 
 	
 	public String piocher(int nb_cartes) {

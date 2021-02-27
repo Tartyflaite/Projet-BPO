@@ -29,7 +29,12 @@ public class Application {
 	
 	private static void traitement(String s) {
 		String[] tab = s.split("\\s+");
-		
+		for (String mot : tab) {
+			if (mot.length()==3 || mot.length()==4) {
+				
+			}
+		}
+			
 	}
 	
 	
