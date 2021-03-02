@@ -32,4 +32,22 @@ public class Carte {
 	public boolean estJouableDscAdv(Joueur j) {
 		return (this.valeur>j.getPileDsc().valeur);
 	}
+
+	public String toString() {
+
+		String val = "";
+
+		if(valeur < 10){
+
+			val = "0";
+
+		}
+
+		val += String.valueOf(valeur);
+
+		return val;
+
+
+	}
+
 }

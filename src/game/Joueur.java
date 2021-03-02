@@ -41,12 +41,31 @@ public class Joueur {
 	}
 	
 	public String toStringHand() {
+
+		ArrayList<Carte> listeCroissante  = hand;
+
+		for(int i = 0 ; i < listeCroissante.size() ; i++){
+
+			for(int j = i+1 ; j < listeCroissante.size() ; j++){
+
+				if(listeCroissante.get(j).getValeur() < listeCroissante.get(i).getValeur()){
+
+					Carte tmp = new Carte(listeCroissante.get(i).getValeur());
+					listeCroissante.set(i, listeCroissante.get(j));
+					listeCroissante.set(j, tmp);
+
+				}
+
+			}
+
+		}
+
 		StringBuilder sb= new StringBuilder();
 		sb.append("cartes ");
 		sb.append(this.nom);
 		sb.append(" { ");
-		for(Carte c:hand) {
-			sb.append(c.getValeur()+" ");
+		for(Carte c : listeCroissante) {
+			sb.append(c.toString()+" ");
 		}
 		sb.append("}");
 		return sb.toString();
