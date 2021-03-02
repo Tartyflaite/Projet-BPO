@@ -80,7 +80,7 @@ public class Joueur {
 			hand.add(carte);
 			deck.remove(carte);
 		}
-		return i +" cartes piochées";
+		return i +" cartes piochÃ©es";
 
 	}
 	
@@ -161,7 +161,7 @@ public class Joueur {
 		return true;
 	}
 	
-	public boolean aGagné() {
+	public boolean aGagne() {
 		return hand.size()==0 && deck.size()==0;
 	}
 	
