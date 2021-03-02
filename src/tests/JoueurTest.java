@@ -92,24 +92,49 @@ class JoueurTest {
             nord.placer(nord, test, true);
             
             assertEquals(15,nord.getPileAsc().getValeur());
+            assertFalse(nord.isInHand(test));
             
             nord.ajouterCarte(test);
             nord.placer(nord, test, false);
             
             assertEquals(15,nord.getPileDsc().getValeur());
+            assertFalse(nord.isInHand(test));
             
             nord.ajouterCarte(test);
             nord.placer(sud, test, true);
             
             assertEquals(15,sud.getPileAsc().getValeur());
+            assertFalse(nord.isInHand(test));
             
             nord.ajouterCarte(test);
             nord.placer(sud, test, false);
             
             assertEquals(15,sud.getPileDsc().getValeur());
+            assertFalse(nord.isInHand(test));
             
         }
         
+        @Test
+        void testAPerdu() {
+        	
+        	Joueur nord = new Joueur("NORD");
+            Joueur sud = new Joueur("SUD");
+            
+            nord.ajouterCarte(new Carte(2));
+            nord.ajouterCarte(new Carte(3));
+            nord.ajouterCarte(new Carte(4));
+            nord.ajouterCarte(new Carte(59));
+            
+            assertFalse(nord.aPerdu(sud));
+            
+            nord.placer(nord, new Carte(3), false);
+            
+            nord.placer(nord, new Carte(59), true);
+            
+            assertTrue(nord.aPerdu(sud));
+            
+        	
+        }
         
 
 }
