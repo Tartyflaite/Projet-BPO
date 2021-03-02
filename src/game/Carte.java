@@ -1,79 +1,35 @@
-package appli;
+package game;
 
-import java.util.ArrayList;
-
-public class Cartes {
-
-    private ArrayList<String> tab;
-    private int nb;
-
-    public Cartes(){
-
-        tab = new ArrayList<String>();
-        nb = 0;
-
-    }
-
-    public int getNb(){
-
-        return nb;
-
-    }
-
-    public void setNb(int nb){
-
-        this.nb = nb;
-
-    }
-
-    public void ajouter(String nbr){
-
-        tab.add(nbr);
-        nb++;
-
-    }
-
-
-    public String recuperer(int idx){
-
-        String nbr = tab.get(idx);
-        tab.remove(idx);
-        nb--;
-
-        return nbr;
-
-    }
-
-    public void afficher() {
-
-        ArrayList<String> listeCroissante  = tab;
-
-        for(int i = 0 ; i < listeCroissante.size() ; i++){
-
-            for(int j = i+1 ; j < listeCroissante.size() ; j++){
-
-                if(Integer.valueOf(listeCroissante.get(j)) < Integer.valueOf(listeCroissante.get(i))){
-
-                    String tmp = listeCroissante.get(i);
-                    listeCroissante.set(i, listeCroissante.get(j));
-                    listeCroissante.set(j, tmp);
-
-                }
-
-            }
-
-        }
-
-        for(String l : listeCroissante){
-
-            System.out.print(l + " ");
-
-
-        }
-
-
-    }
-
-
-
+public class Carte {
+	
+	private int valeur;
+	
+	public int getValeur() {
+		return valeur;
+	}
+	
+	public Carte(int val) {
+		this.valeur=val;
+	}
+	
+	public boolean estJouable(Joueur j,Joueur adv) {
+		
+		return this.estJouableAsc(j) || this.estJouableDsc(j) || this.estJouableAscAdv(adv) || this.estJouableDscAdv(adv);
+	}
+	
+	public boolean estJouableAsc(Joueur j) {
+		return (this.valeur>j.getPileAsc().valeur) || (this.valeur==j.getPileAsc().valeur-10);
+	}
+	
+	public boolean estJouableDsc(Joueur j) {
+		return (this.valeur<j.getPileDsc().valeur) || (this.valeur==j.getPileDsc().valeur+10);
+	}
+	
+	public boolean estJouableAscAdv(Joueur j) {
+		return (this.valeur<j.getPileAsc().valeur);
+	}
+	
+	public boolean estJouableDscAdv(Joueur j) {
+		return (this.valeur>j.getPileDsc().valeur);
+	}
 }
