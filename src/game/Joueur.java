@@ -90,27 +90,43 @@ public class Joueur {
 	
 
 	
-	public void placerAsc(Joueur j, Carte carte) {
+	public void placer(Joueur j, Carte carte, boolean asc) {
+
 		if(this.equals(j)) {
-			this.pileAsc=carte;
-			this.hand.remove(carte);
+
+
+			for(int i = 0 ; i < this.hand.size() ; i++){
+
+				if(this.hand.get(i).getValeur() == carte.getValeur()) {
+					if(asc)
+						this.pileAsc = carte;
+					else
+						this.pileDsc = carte;
+					this.hand.remove(i);
+				}
+
+			}
+
+
 		}
 		else {
-			j.pileAsc=carte;
-			this.hand.remove(carte);
+
+			for(int i = 0 ; i < this.hand.size() ; i++){
+
+				if(this.hand.get(i).getValeur() == carte.getValeur()) {
+					if(asc)
+						j.pileAsc = carte;
+					else
+						j.pileDsc = carte;
+					this.hand.remove(i);
+				}
+
+			}
+
+
 		}
 	}
-	
-	public void placerDsc(Joueur j, Carte carte) {
-		if(this.equals(j)) {
-			this.pileDsc=carte;
-			this.hand.remove(carte);
-		}
-		else {
-			j.pileDsc=carte;
-			this.hand.remove(carte);
-		}
-	}
+
 	
 	public boolean aPerdu(Joueur j) {
 		boolean cartesJouables=true;
@@ -119,29 +135,29 @@ public class Joueur {
 			if(i.estJouable(this,j)) {
 				if(cartesJouables && i.estJouableAsc(this)) {
 					temp=pileAsc;
-					this.placerAsc(this, i);
+					this.placer(this, i, true);
 					cartesJouables=this.mainJouabletier2(j, i);
-					this.placerAsc(this, temp);
+					this.placer(this, temp, true);
 				}
 				if(cartesJouables && i.estJouableDsc(this)) {
 					temp=pileDsc;
-					this.placerDsc(this, i);
+					this.placer(this, i, false);
 					cartesJouables=this.mainJouabletier2(j, i);
-					this.placerDsc(this, temp);
+					this.placer(this, temp, false);
 					
 				}
 				if(cartesJouables && i.estJouableAscAdv(j)) {
 					temp=j.pileAsc;
-					this.placerAsc(j, i);
+					this.placer(j, i, true);
 					cartesJouables=this.mainJouabletier2(j, i);
-					this.placerAsc(j, temp);
+					this.placer(j, temp, true);
 					
 				}
 				if(cartesJouables && i.estJouableDscAdv(j)) {
 					temp=j.pileDsc;
-					this.placerAsc(j, i);
+					this.placer(j, i, true);
 					cartesJouables=this.mainJouabletier2(j, i);
-					this.placerAsc(j, temp);
+					this.placer(j, temp, true);
 				}
 				
 			}
