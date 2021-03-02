@@ -30,6 +30,18 @@ public class Joueur {
 		return pileDsc;
 	}
 	
+	public ArrayList<Carte> getHand(){
+		return hand;
+	}
+	
+	public ArrayList<Carte> getDeck(){
+		return deck;
+	}
+	
+	public void ajouterCarte(Carte carte) {
+		this.hand.add(carte);
+	}
+	
 	public String toString() {
 		StringBuilder sb= new StringBuilder();
 		sb.append(this.nom+" ");
@@ -80,7 +92,7 @@ public class Joueur {
 			hand.add(carte);
 			deck.remove(carte);
 		}
-		return i +" cartes piochées";
+		return i +" cartes piochees";
 
 	}
 	
@@ -132,13 +144,15 @@ public class Joueur {
 		boolean cartesJouables=true;
 		Carte temp;
 		for(Carte i:hand) {
-			if(i.estJouable(this,j)) {
+			if(cartesJouables && i.estJouable(this,j)) {
+				
 				if(cartesJouables && i.estJouableAsc(this)) {
 					temp=pileAsc;
 					this.placer(this, i, true);
 					cartesJouables=this.mainJouabletier2(j, i);
 					this.placer(this, temp, true);
 				}
+				
 				if(cartesJouables && i.estJouableDsc(this)) {
 					temp=pileDsc;
 					this.placer(this, i, false);
@@ -146,6 +160,7 @@ public class Joueur {
 					this.placer(this, temp, false);
 					
 				}
+				
 				if(cartesJouables && i.estJouableAscAdv(j)) {
 					temp=j.pileAsc;
 					this.placer(j, i, true);
@@ -153,6 +168,7 @@ public class Joueur {
 					this.placer(j, temp, true);
 					
 				}
+				
 				if(cartesJouables && i.estJouableDscAdv(j)) {
 					temp=j.pileDsc;
 					this.placer(j, i, true);

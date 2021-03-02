@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class JoueurTest {
 
         @Test
-        void test() {
+        void testToString() {
 
             Joueur nord = new Joueur("NORD");
             Joueur sud = new Joueur("SUD");
@@ -17,7 +17,7 @@ class JoueurTest {
             assertEquals("NORD ^[1] v[60] (m0p58)", nord.toString());
             assertEquals("SUD ^[1] v[60] (m0p58)", sud.toString());
 
-            assertEquals("58 cartes piochées", nord.piocher(58));
+            assertEquals("58 cartes piochees", nord.piocher(58));
 
             assertEquals("NORD ^[1] v[60] (m58p0)", nord.toString());
 
@@ -25,7 +25,7 @@ class JoueurTest {
 
             assertEquals("NORD ^[2] v[60] (m57p0)", nord.toString());
 
-            assertEquals("58 cartes piochées", sud.piocher(58));
+            assertEquals("58 cartes piochees", sud.piocher(58));
 
             assertEquals("SUD ^[1] v[60] (m58p0)", sud.toString());
 
@@ -35,9 +35,87 @@ class JoueurTest {
 
             assertEquals("NORD ^[2] v[5] (m57p0)", nord.toString());
 
-
-
-
         }
+        
+        @Test
+        void testPiocher() {
+        	
+        	Joueur test= new Joueur("TEST");
+        	
+        	assertEquals(0,test.getHand().size());
+        	assertEquals(58,test.getDeck().size());
+        	
+        	test.piocher(4);
+        	
+        	assertEquals(4,test.getHand().size());
+        	assertEquals(54,test.getDeck().size());
+        	
+        	
+        }
+        
+        @Test
+        void testIsInHand() {
+        	
+        	Joueur test= new Joueur("TEST");
+        	Carte ctest= new Carte(15);
+        	
+        	test.ajouterCarte(ctest);
+        	
+        	assertTrue(test.isInHand(ctest));
+        	
+        }
+        
+        @Test
+        void testTosStringHand() {
+        	
+        	Joueur test= new Joueur("TEST");
+        	Carte ctest1= new Carte(15);
+        	Carte ctest2= new Carte(8);
+        	
+        	test.ajouterCarte(ctest1);
+        	
+        	assertEquals("cartes TEST { 15 }", test.toStringHand());
+        	
+        	test.ajouterCarte(ctest2);
+        	
+        	assertEquals("cartes TEST { 08 15 }", test.toStringHand());
+        }
+        
+        @Test 
+        void testPlacer() {
+        	
+            Joueur nord = new Joueur("NORD");
+            Joueur sud = new Joueur("SUD");
+            Carte test= new Carte(15);
+            
+            nord.ajouterCarte(test);
+            nord.placer(nord, test, true);
+            
+            assertEquals(15,nord.getPileAsc().getValeur());
+            
+            nord.ajouterCarte(test);
+            nord.placer(nord, test, false);
+            
+            assertEquals(15,nord.getPileDsc().getValeur());
+            
+            nord.ajouterCarte(test);
+            nord.placer(sud, test, true);
+            
+            assertEquals(15,sud.getPileAsc().getValeur());
+            
+            nord.ajouterCarte(test);
+            nord.placer(sud, test, false);
+            
+            assertEquals(15,sud.getPileDsc().getValeur());
+            
+        }
+        
+        
 
 }
+
+
+
+
+
+
