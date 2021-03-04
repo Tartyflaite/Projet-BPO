@@ -156,7 +156,7 @@ class JoueurTest {
         }
 
         @Test
-    void testAGagne(){
+        void testAGagne(){
 
             Joueur nord = new Joueur("NORD");
 

@@ -106,8 +106,6 @@ public class Joueur {
 
 			if(this.hand.get(i).getValeur() == carte.getValeur()){
 
-				System.out.println("cc");
-
 				placerTest(j,carte,asc);
 				this.hand.remove(i);
 				break;
