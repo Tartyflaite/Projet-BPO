@@ -99,87 +99,100 @@ public class Joueur {
 	public boolean isInHand(Carte carte) {
 		return hand.contains(carte);
 	}
-	
 
+	public void placer(Joueur j, Carte carte, boolean asc){
+
+		int i;
+
+		for(i = 0 ; i < this.hand.size() ; i++){
+
+			if(this.hand.get(i).getValeur() == carte.getValeur()){
+
+				placerTest(j,carte,asc);
+				break;
+
+			}
+
+		}
+
+		this.hand.remove(i);
+
+
+
+
+
+
+	}
 	
-	public void placer(Joueur j, Carte carte, boolean asc) {
+	public void placerTest(Joueur j, Carte carte, boolean asc) {
+
 
 		if(this.equals(j)) {
 
-
-			for(int i = 0 ; i < this.hand.size() ; i++){
-
-				if(this.hand.get(i).getValeur() == carte.getValeur()) {
-					if(asc)
-						this.pileAsc = carte;
-					else
-						this.pileDsc = carte;
-					this.hand.remove(i);
-				}
-
-			}
+			if(asc)
+				this.pileAsc = carte;
+			else
+				this.pileDsc = carte;
 
 
 		}
 		else {
 
-			for(int i = 0 ; i < this.hand.size() ; i++){
-
-				if(this.hand.get(i).getValeur() == carte.getValeur()) {
-					if(asc)
-						j.pileAsc = carte;
-					else
-						j.pileDsc = carte;
-					this.hand.remove(i);
-				}
-
-			}
+			if(asc)
+				j.pileAsc = carte;
+			else
+				j.pileDsc = carte;
 
 
 		}
+
 	}
 
 	
-	public boolean aPerdu(Joueur j) {
+	public boolean aPerdu(Joueur adv) {
 		boolean cartesJouables=true;
 		Carte temp;
 		for(Carte i:hand) {
-			if(cartesJouables && i.estJouable(this,j)) {
-				
+			if(cartesJouables && i.estJouable(this,adv)) {
+
+
 				if(cartesJouables && i.estJouableAsc(this)) {
 					temp=pileAsc;
-					this.placer(this, i, true);
-					cartesJouables=this.mainJouabletier2(j, i);
-					this.placer(this, temp, true);
+					this.placerTest(this, i, true);
+					cartesJouables=this.mainJouabletier2(adv, i);
+					this.placerTest(this, temp, true);
 				}
-				
+
+
 				if(cartesJouables && i.estJouableDsc(this)) {
 					temp=pileDsc;
-					this.placer(this, i, false);
-					cartesJouables=this.mainJouabletier2(j, i);
-					this.placer(this, temp, false);
+					this.placerTest(this, i, false);
+					cartesJouables=this.mainJouabletier2(adv, i);
+					this.placerTest(this, temp, false);
 					
 				}
 				
-				if(cartesJouables && i.estJouableAscAdv(j)) {
-					temp=j.pileAsc;
-					this.placer(j, i, true);
-					cartesJouables=this.mainJouabletier2(j, i);
-					this.placer(j, temp, true);
+				if(cartesJouables && i.estJouableAscAdv(adv)) {
+					temp=adv.pileAsc;
+					this.placerTest(adv, i, true);
+					cartesJouables=this.mainJouabletier2(adv, i);
+					this.placerTest(adv, temp, true);
 					
 				}
 				
-				if(cartesJouables && i.estJouableDscAdv(j)) {
-					temp=j.pileDsc;
-					this.placer(j, i, true);
-					cartesJouables=this.mainJouabletier2(j, i);
-					this.placer(j, temp, true);
+				if(cartesJouables && i.estJouableDscAdv(adv)) {
+					temp=adv.pileDsc;
+					this.placerTest(adv, i, false);
+					cartesJouables=this.mainJouabletier2(adv, i);
+					this.placerTest(adv, temp, false);
 				}
+
 				
 			}
 		}
 		return cartesJouables;
 	}
+
 	
 	private boolean mainJouabletier2(Joueur j, Carte i) {
 		for(Carte k:hand) {

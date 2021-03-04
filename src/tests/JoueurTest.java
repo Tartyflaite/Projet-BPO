@@ -124,15 +124,39 @@ class JoueurTest {
             nord.ajouterCarte(new Carte(3));
             nord.ajouterCarte(new Carte(4));
             nord.ajouterCarte(new Carte(59));
-            
+
             assertFalse(nord.aPerdu(sud));
-            
-            nord.placer(nord, new Carte(3), false);
-            
-            nord.placer(nord, new Carte(59), true);
+
+            nord.placer(nord, new Carte(2), false);
+
+            nord.placer(nord, new Carte(4), true);
             
             assertTrue(nord.aPerdu(sud));
-            
+
+
+            sud.ajouterCarte(new Carte(12));
+            sud.ajouterCarte(new Carte(2));
+            sud.ajouterCarte(new Carte(58));
+            sud.ajouterCarte(new Carte(4));
+
+            sud.placer(sud, new Carte(2), true);
+
+            assertTrue(nord.aPerdu(sud));
+
+            sud.placer(sud, new Carte(58), false);
+
+            assertTrue(nord.aPerdu(sud));
+
+
+            sud.placer(sud, new Carte(4), true);
+
+
+            assertFalse(nord.aPerdu(sud));
+
+
+
+
+
         	
         }
         
