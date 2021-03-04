@@ -2,7 +2,7 @@ package game;
 
 public class Carte {
 	
-	private int valeur;
+	private final int valeur;
 	
 	public int getValeur() {
 		return valeur;

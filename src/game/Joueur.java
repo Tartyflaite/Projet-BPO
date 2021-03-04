@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Joueur {
-	private ArrayList<Carte> deck;
-	private ArrayList<Carte> hand;
+	private final ArrayList<Carte> deck;
+	private final ArrayList<Carte> hand;
 	private Carte pileAsc; // pile ascendante
 	private Carte pileDsc; // pile descendante
-	private String nom;
+	private final String nom;
 	
 	
 	public Joueur(String nom) {
@@ -43,13 +43,11 @@ public class Joueur {
 	}
 	
 	public String toString() {
-		StringBuilder sb= new StringBuilder();
-		sb.append(this.nom+" ");
-		sb.append("^["+pileAsc.getValeur()+"] ");
-		sb.append("v["+pileDsc.getValeur()+"] ");
-		sb.append("(m"+this.hand.size());
-		sb.append("p"+this.deck.size()+")");
-		return sb.toString();
+		return this.nom + " " +
+				"^[" + pileAsc.getValeur() + "] " +
+				"v[" + pileDsc.getValeur() + "] " +
+				"(m" + this.hand.size() +
+				"p" + this.deck.size() + ")";
 	}
 	
 	public String toStringHand() {
@@ -77,7 +75,7 @@ public class Joueur {
 		sb.append(this.nom);
 		sb.append(" { ");
 		for(Carte c : listeCroissante) {
-			sb.append(c.toString()+" ");
+			sb.append(c.toString()).append(" ");
 		}
 		sb.append("}");
 		return sb.toString();
@@ -143,10 +141,10 @@ public class Joueur {
 	
 	public boolean aPerdu(Joueur adv) {
 		boolean cartesJouables=true;
-		Carte temp;
 		for(Carte i:hand) {
 			if(cartesJouables && i.estJouable(this,adv)) {
 
+				Carte temp;
 
 				if(cartesJouables && i.estJouableAsc(this)) {
 					temp=pileAsc;
