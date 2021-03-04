@@ -102,29 +102,23 @@ public class Joueur {
 
 	public void placer(Joueur j, Carte carte, boolean asc){
 
-		int i;
-
-		for(i = 0 ; i < this.hand.size() ; i++){
+		for(int i = 0 ; i < this.hand.size() ; i++){
 
 			if(this.hand.get(i).getValeur() == carte.getValeur()){
 
+				System.out.println("cc");
+
 				placerTest(j,carte,asc);
+				this.hand.remove(i);
 				break;
 
 			}
 
 		}
 
-		this.hand.remove(i);
-
-
-
-
-
-
 	}
 	
-	public void placerTest(Joueur j, Carte carte, boolean asc) {
+	private void placerTest(Joueur j, Carte carte, boolean asc) {
 
 
 		if(this.equals(j)) {
@@ -208,6 +202,12 @@ public class Joueur {
 	
 	public boolean aGagne() {
 		return hand.size()==0 && deck.size()==0;
+	}
+
+	public void resetHand(){
+
+		hand.clear();
+
 	}
 	
 }

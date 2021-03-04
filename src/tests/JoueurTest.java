@@ -152,12 +152,20 @@ class JoueurTest {
 
 
             assertFalse(nord.aPerdu(sud));
-
-
-
-
-
         	
+        }
+
+        @Test
+    void testAGagne(){
+
+            Joueur nord = new Joueur("NORD");
+
+            nord.piocher(58);
+
+            nord.resetHand();
+
+            assertTrue(nord.aGagne());
+
         }
         
 
