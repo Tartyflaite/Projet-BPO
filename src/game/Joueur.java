@@ -13,16 +13,23 @@ public class Joueur {
 	
 	public Joueur(String nom) {
 		this.deck= new ArrayList<>();
-		for(int i=2;i<60;++i) {
+		for(int i=2;i<4;++i) {
 			this.deck.add(new Carte(i));
 		}
 		this.hand= new ArrayList<>();
-		this.pileAsc= new Carte(1);
-		this.pileDsc= new Carte(60);
+		this.pileAsc= new Carte(4);
+		this.pileDsc= new Carte(2);
 		this.nom=nom;
 	}
-	
+
+	public String getNom(){
+
+		return nom;
+
+	}
+
 	public Carte getPileAsc() {
+
 		return pileAsc;
 	}
 	
@@ -43,9 +50,21 @@ public class Joueur {
 	}
 	
 	public String toString() {
+
+		String asc = "";
+		String dsc = "";
+
+		if(pileAsc.getValeur() < 10)
+			asc += "0";
+		if(pileDsc.getValeur() < 10)
+			dsc += "0";
+
+		asc += String.valueOf(pileAsc.getValeur());
+		dsc += String.valueOf(pileDsc.getValeur());
+
 		return this.nom + " " +
-				"^[" + pileAsc.getValeur() + "] " +
-				"v[" + pileDsc.getValeur() + "] " +
+				"^[" + asc + "] " +
+				"v[" + dsc + "] " +
 				"(m" + this.hand.size() +
 				"p" + this.deck.size() + ")";
 	}
@@ -90,6 +109,7 @@ public class Joueur {
 			hand.add(carte);
 			deck.remove(carte);
 		}
+
 		return i +" cartes piochees";
 
 	}
@@ -114,7 +134,7 @@ public class Joueur {
 
 	}
 	
-	private void placerTest(Joueur j, Carte carte, boolean asc) {
+	public void placerTest(Joueur j, Carte carte, boolean asc) {
 
 
 		if(this.equals(j)) {
