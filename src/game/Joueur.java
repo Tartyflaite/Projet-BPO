@@ -13,12 +13,12 @@ public class Joueur {
 	
 	public Joueur(String nom) {
 		this.deck= new ArrayList<>();
-		for(int i=2;i<4;++i) {
+		for(int i=2;i<60;++i) {
 			this.deck.add(new Carte(i));
 		}
 		this.hand= new ArrayList<>();
-		this.pileAsc= new Carte(4);
-		this.pileDsc= new Carte(2);
+		this.pileAsc= new Carte(60);
+		this.pileDsc= new Carte(1);
 		this.nom=nom;
 	}
 
