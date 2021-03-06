@@ -24,7 +24,7 @@ public class Application {
 		boolean tourNord = true;
 		boolean etat = true;
 		while (!s.equals("fin")) {
-			if(etat) {
+			if(etat && !(tourNord && nord.aPerdu(sud)) && !(!tourNord && sud.aPerdu(nord))) {
 				System.out.println(nord.toString());
 				System.out.println(sud.toString());
 				if (tourNord)
@@ -33,7 +33,7 @@ public class Application {
 					System.out.println(sud.toStringHand());
 				System.out.print("> ");
 			}
-			else {
+			else if(!etat) {
 				System.out.print("#> ");
 			}
 			if(tourNord && nord.aPerdu(sud)){
@@ -103,7 +103,7 @@ public class Application {
 		Carte tempAsc = j.getPileAsc();
 		Carte tempDsc = j.getPileDsc();
 		Carte tempAscAdv = adv.getPileAsc();
-		Carte tempDscAdv = j.getPileDsc();
+		Carte tempDscAdv = adv.getPileDsc();
 		int cpt = 0;
 		boolean a = false;
 		boolean completerHand = false;
@@ -167,6 +167,8 @@ public class Application {
 		j.placerTest(adv, tempAscAdv, true);
 		j.placerTest(adv, tempDscAdv, false);
 
+		int i = 0;
+
 		for (String mot : tab) {
 
 			int nb = Integer.parseInt(String.valueOf(mot.charAt(0)) + String.valueOf(mot.charAt(1)));
@@ -181,12 +183,27 @@ public class Application {
 			if(!placer(String.valueOf(mot.charAt(2)), c, j, adv, a, false))
 				return false;
 
+			i++;
+
 		}
 
-		if(completerHand && !j.aGagne())
-			System.out.println(j.piocher(6 - j.getHand().size()));
-		else if(!j.aGagne())
-			System.out.println(j.piocher(2));
+		System.out.print(i + " cartes posees");
+
+		if(j.getDeck().size() == 0)
+			System.out.println("");
+
+		if(completerHand && !j.aGagne() && j.getDeck().size() > 0) {
+			if(j.getDeck().size() < 6 - j.getHand().size())
+				System.out.println(j.piocher(j.getDeck().size()));
+			else
+				System.out.println(j.piocher(6 - j.getHand().size()));
+		}
+		else if(!j.aGagne() && j.getDeck().size() > 0) {
+			if(j.getDeck().size() < 2)
+				System.out.println(j.piocher(j.getDeck().size()));
+			else
+				System.out.println(j.piocher(2));
+		}
 
 		return true;
 

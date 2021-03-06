@@ -110,7 +110,7 @@ public class Joueur {
 			deck.remove(carte);
 		}
 
-		return i +" cartes piochees";
+		return ", " + i +" cartes piochees";
 
 	}
 	
@@ -124,7 +124,11 @@ public class Joueur {
 
 			if(this.hand.get(i).getValeur() == carte.getValeur()){
 
-				placerTest(j,carte,asc);
+				if(this.equals(j))
+					placerTest(this,carte,asc);
+				else
+					placerTest(j,carte,asc);
+
 				this.hand.remove(i);
 				break;
 
@@ -169,7 +173,7 @@ public class Joueur {
 				if(cartesJouables && i.estJouableAsc(this)) {
 					temp=pileAsc;
 					this.placerTest(this, i, true);
-					cartesJouables=this.mainJouabletier2(adv, i);
+					cartesJouables=this.mainJouabletier2(adv, i,false);
 					this.placerTest(this, temp, true);
 				}
 
@@ -177,7 +181,7 @@ public class Joueur {
 				if(cartesJouables && i.estJouableDsc(this)) {
 					temp=pileDsc;
 					this.placerTest(this, i, false);
-					cartesJouables=this.mainJouabletier2(adv, i);
+					cartesJouables=this.mainJouabletier2(adv, i,false);
 					this.placerTest(this, temp, false);
 					
 				}
@@ -185,7 +189,7 @@ public class Joueur {
 				if(cartesJouables && i.estJouableAscAdv(adv)) {
 					temp=adv.pileAsc;
 					this.placerTest(adv, i, true);
-					cartesJouables=this.mainJouabletier2(adv, i);
+					cartesJouables=this.mainJouabletier2(adv, i,true);
 					this.placerTest(adv, temp, true);
 					
 				}
@@ -193,7 +197,7 @@ public class Joueur {
 				if(cartesJouables && i.estJouableDscAdv(adv)) {
 					temp=adv.pileDsc;
 					this.placerTest(adv, i, false);
-					cartesJouables=this.mainJouabletier2(adv, i);
+					cartesJouables=this.mainJouabletier2(adv, i,true);;
 					this.placerTest(adv, temp, false);
 				}
 
@@ -204,12 +208,14 @@ public class Joueur {
 	}
 
 	
-	private boolean mainJouabletier2(Joueur j, Carte i) {
+	private boolean mainJouabletier2(Joueur j, Carte i, boolean jouerAdv) {
 		for(Carte k:hand) {
 			if(i==k) {
 				continue;
 			}
-			if(k.estJouable(this,j)) {
+			if(jouerAdv && (k.estJouableAsc(this) || k.estJouableDsc(this)))
+				return false;
+			if(!jouerAdv && k.estJouable(this,j)) {
 				return false;
 			}
 		}

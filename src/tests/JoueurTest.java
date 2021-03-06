@@ -17,7 +17,7 @@ class JoueurTest {
             assertEquals("NORD ^[01] v[60] (m0p58)", nord.toString());
             assertEquals("SUD ^[01] v[60] (m0p58)", sud.toString());
 
-            assertEquals("58 cartes piochees", nord.piocher(58));
+            assertEquals(", 58 cartes piochees", nord.piocher(58));
 
             assertEquals("NORD ^[01] v[60] (m58p0)", nord.toString());
 
@@ -25,7 +25,7 @@ class JoueurTest {
 
             assertEquals("NORD ^[02] v[60] (m57p0)", nord.toString());
 
-            assertEquals("58 cartes piochees", sud.piocher(58));
+            assertEquals(", 58 cartes piochees", sud.piocher(58));
 
             assertEquals("SUD ^[01] v[60] (m58p0)", sud.toString());
 
