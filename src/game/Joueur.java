@@ -17,8 +17,8 @@ public class Joueur {
 			this.deck.add(new Carte(i));
 		}
 		this.hand= new ArrayList<>();
-		this.pileAsc= new Carte(60);
-		this.pileDsc= new Carte(1);
+		this.pileAsc= new Carte(1);
+		this.pileDsc= new Carte(60);
 		this.nom=nom;
 	}
 
