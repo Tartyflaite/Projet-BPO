@@ -19,7 +19,7 @@ class CarteTest {
 
         nord.ajouterCarte(c);
 
-        nord.placer(nord, c, true);
+        nord.placer(nord, c, true, true);
 
         Carte c2 = new Carte(5);
 
@@ -44,7 +44,7 @@ class CarteTest {
 
         nord.ajouterCarte(c);
 
-        nord.placer(nord, c, false);
+        nord.placer(nord, c, false, true);
 
         Carte c2 = new Carte(52);
 
@@ -60,14 +60,13 @@ class CarteTest {
     @Test
     void testEstJouableAscAdv() {
 
-        Joueur nord = new Joueur("NORD");
         Joueur sud = new Joueur("SUD");
 
         Carte c = new Carte(12);
 
         sud.ajouterCarte(c);
 
-        sud.placer(sud, c, true);
+        sud.placer(sud, c, true, true);
 
         Carte c2 = new Carte(14);
 
@@ -84,14 +83,13 @@ class CarteTest {
     @Test
     void testEstJouableDscAdv() {
 
-        Joueur nord = new Joueur("NORD");
         Joueur sud = new Joueur("SUD");
 
         Carte c = new Carte(43);
 
         sud.ajouterCarte(c);
 
-        sud.placer(sud, c, false);
+        sud.placer(sud, c, false, true);
 
         Carte c2 = new Carte(32);
 

@@ -21,7 +21,7 @@ class JoueurTest {
 
             assertEquals("NORD ^[01] v[60] (m58p0)", nord.toString());
 
-            nord.placer(nord, new Carte(2), true);
+            nord.placer(nord, new Carte(2), true, true);
 
             assertEquals("NORD ^[02] v[60] (m57p0)", nord.toString());
 
@@ -29,7 +29,7 @@ class JoueurTest {
 
             assertEquals("SUD ^[01] v[60] (m58p0)", sud.toString());
 
-            sud.placer(nord, new Carte(5), false);
+            sud.placer(nord, new Carte(5), false, true);
 
             assertEquals("SUD ^[01] v[60] (m57p0)", sud.toString());
 
@@ -92,25 +92,25 @@ class JoueurTest {
             Carte test= new Carte(15);
             
             nord.ajouterCarte(test);
-            nord.placer(nord, test, true);
+            nord.placer(nord, test, true, true);
             
             assertEquals(15,nord.getPileAsc().getValeur());
             assertFalse(nord.isInHand(test));
             
             nord.ajouterCarte(test);
-            nord.placer(nord, test, false);
+            nord.placer(nord, test, false, true);
             
             assertEquals(15,nord.getPileDsc().getValeur());
             assertFalse(nord.isInHand(test));
             
             nord.ajouterCarte(test);
-            nord.placer(sud, test, true);
+            nord.placer(sud, test, true, true);
             
             assertEquals(15,sud.getPileAsc().getValeur());
             assertFalse(nord.isInHand(test));
             
             nord.ajouterCarte(test);
-            nord.placer(sud, test, false);
+            nord.placer(sud, test, false, true);
             
             assertEquals(15,sud.getPileDsc().getValeur());
             assertFalse(nord.isInHand(test));
@@ -130,9 +130,9 @@ class JoueurTest {
 
             assertFalse(nord.aPerdu(sud));
 
-            nord.placer(nord, new Carte(2), false);
+            nord.placer(nord, new Carte(2), false, true);
 
-            nord.placer(nord, new Carte(4), true);
+            nord.placer(nord, new Carte(4), true, true);
             
             assertTrue(nord.aPerdu(sud));
 
@@ -142,16 +142,16 @@ class JoueurTest {
             sud.ajouterCarte(new Carte(58));
             sud.ajouterCarte(new Carte(4));
 
-            sud.placer(sud, new Carte(2), true);
+            sud.placer(sud, new Carte(2), true, true);
 
             assertTrue(nord.aPerdu(sud));
 
-            sud.placer(sud, new Carte(58), false);
+            sud.placer(sud, new Carte(58), false, true);
 
             assertTrue(nord.aPerdu(sud));
 
 
-            sud.placer(sud, new Carte(4), true);
+            sud.placer(sud, new Carte(4), true, true);
 
 
             assertFalse(nord.aPerdu(sud));
