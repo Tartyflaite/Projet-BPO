@@ -115,9 +115,19 @@ public class Joueur {
 	}
 	
 	public boolean isInHand(Carte carte) {
-		return hand.contains(carte);
+		
+		for(Carte c:hand) {
+			
+			if(c.getValeur()==carte.getValeur()) {
+				return true;
+			}
+			
+		}
+		
+		return false;
 	}
 
+	
 	public void placer(Joueur j, Carte carte, boolean asc){
 
 		for(int i = 0 ; i < this.hand.size() ; i++){

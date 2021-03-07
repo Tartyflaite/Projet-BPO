@@ -50,6 +50,8 @@ class JoueurTest {
         	assertEquals(4,test.getHand().size());
         	assertEquals(54,test.getDeck().size());
         	
+        	test.piocher(0);
+        	
         	
         }
         
@@ -58,10 +60,11 @@ class JoueurTest {
         	
         	Joueur test= new Joueur("TEST");
         	Carte ctest= new Carte(15);
+        	Carte ctest2=new Carte(15);
         	
         	test.ajouterCarte(ctest);
         	
-        	assertTrue(test.isInHand(ctest));
+        	assertTrue(test.isInHand(ctest2));
         	
         }
         

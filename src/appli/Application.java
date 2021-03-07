@@ -1,6 +1,5 @@
 package appli;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -13,72 +12,83 @@ public class Application {
 
 	public static void main(String[] args) {
 		Joueur nord = new Joueur("NORD");
-		Joueur sud = new Joueur("SUD ");
-
-		nord.piocher(6);
-		sud.piocher(6);
-
-		@SuppressWarnings("resource")
-		Scanner sc = new Scanner(System.in);
-		String s = "";
-		boolean tourNord = true;
-		boolean etat = true;
-		while (!s.equals("fin")) {
-			if(etat && !(tourNord && nord.aPerdu(sud)) && !(!tourNord && sud.aPerdu(nord))) {
-				System.out.println(nord.toString());
-				System.out.println(sud.toString());
-				if (tourNord)
-					System.out.println(nord.toStringHand());
-				else
-					System.out.println(sud.toStringHand());
-				System.out.print("> ");
-			}
-			else if(!etat) {
-				System.out.print("#> ");
-			}
-			if(tourNord && nord.aPerdu(sud)){
-
-				System.out.println(nord.getNom() + " a perdu");
+		Joueur sud = new Joueur("SUD");
+		
+		Application.Partie(nord, sud);
+		
+	}
+	
+	private static void Partie( Joueur j, Joueur adv) {
+		
+		boolean partieEnCours = true;
+		
+		j.piocher(6);
+		adv.piocher(6);
+		
+		while (partieEnCours) {
+			
+			System.out.println(j.toString());
+			System.out.println(adv.toString());
+			
+			partieEnCours=Application.tourJoueur(j, adv);
+			
+			if(!partieEnCours) {
 				break;
-
 			}
-			if(!tourNord && sud.aPerdu(nord)){
+			
+			System.out.println(j.toString());
+			System.out.println(adv.toString());
+			
+			partieEnCours=Application.tourJoueur(adv, j);
 
-				System.out.println(sud.getNom() + "a perdu");
-				break;
-
-			}
-			s = sc.nextLine();
-			if(tourNord) {
-				etat = traitement(s, nord, sud);
-				if(!etat)
-					continue;
-				tourNord = false;
-				if(nord.aGagne()){
-
-					System.out.println(nord.getNom() + " a gagnÃ©");
-					break;
-
-				}
-			}
-			else {
-				etat = traitement(s, sud, nord);
-				if(!etat)
-					continue;
-				tourNord = true;
-				if(sud.aGagne()){
-
-					System.out.println(sud.getNom() + "a gagnÃ©");
-					break;
-
-
-				}
-			}
 
 		}
 	}
+	
+	
+	private static boolean tourJoueur(Joueur j, Joueur adv) {
+		
+		@SuppressWarnings("resource")
+		Scanner sc = new Scanner(System.in);
+		String s;
+		boolean coupValide=true;
+		
+		System.out.println(j.toStringHand());
+		
+		if(j.aPerdu(adv)) {
+			
+			System.out.println("Partie finie, " + adv.getNom() + " a gagne");
+			
+			return false;
+		}
+		
+		System.out.print("> ");
+		
+		while(true) {
+			
+			if(!coupValide) {
+				System.out.print("#> ");
+			}
+			s = sc.nextLine();
+			coupValide = traitement(s, j, adv);
+			if(!coupValide)
+				continue;
+			
+			if(j.aGagne()){
 
-	public static boolean checkRedondance(String[] tab){
+				System.out.println("partie finie, " + j.getNom() + " a gagne");
+				return false;
+			}
+			return true;
+			
+		}
+		
+		
+		
+	}
+
+	
+	private static boolean checkRedondance(String[] tab){
 
 		ArrayList<Integer> nbs = new ArrayList<>();
 
@@ -99,37 +109,120 @@ public class Application {
 
 
 	private static boolean traitement(String s, Joueur j, Joueur adv) {
+		
 		String[] tab = s.split("\\s+");
 		Carte tempAsc = j.getPileAsc();
 		Carte tempDsc = j.getPileDsc();
 		Carte tempAscAdv = adv.getPileAsc();
 		Carte tempDscAdv = adv.getPileDsc();
-		int cpt = 0;
-		boolean a = false;
+		
+		
+		boolean commandeValide;
+		boolean jouerAdv = false;
 		boolean completerHand = false;
+		
+		commandeValide = Application.commandeValide(tab, j, adv);
+
+		j.placerTest(j, tempAsc, true);
+		j.placerTest(j, tempDsc, false);
+		j.placerTest(adv, tempAscAdv, true);
+		j.placerTest(adv, tempDscAdv, false);
+
+		if (!commandeValide) {
+			return false;
+		}
+		
+		for (String mot : tab) {
+
+			int nb = Integer.parseInt(String.valueOf(mot.charAt(0)) + String.valueOf(mot.charAt(1)));
+
+			Carte c = new Carte(nb);
+
+			if(mot.length() == 4) {
+				jouerAdv = true;
+				completerHand = true;
+			}
+				
+			else {
+				jouerAdv = false;
+			}
+
+			if(!placer(String.valueOf(mot.charAt(2)), c, j, adv, jouerAdv, false)) // en soit c'est pas nécéssaire mais bon je laisse ca quand meme aucazou
+				return false;
+
+		}
+
+		System.out.print(tab.length + " cartes posées");
+		
+		
+
+		if(completerHand && j.getDeck().size() >= 0) {
+			
+			
+			if(j.getDeck().size() <= 6 - j.getHand().size()) {
+				
+				System.out.println(j.piocher(j.getDeck().size()));
+			}
+			else {
+				
+				System.out.println(j.piocher(6 - j.getHand().size()));
+			}
+		}
+		
+		else if( j.getDeck().size() >= 0) {
+			
+			if(j.getDeck().size() < 2) {
+				System.out.println(j.piocher(j.getDeck().size()));
+			}
+				
+			else {
+				System.out.println(j.piocher(2));
+			}
+				
+		}
+
+		return true;
+
+	}
+
+	
+	private static boolean commandeValide(String[] tab, Joueur j, Joueur adv) {
+		
+		int cpt = 0;
+		boolean jouerAdv = false;
+		
 		if(tab.length < 2)
 			return false;
+		
 		for (String mot : tab) {
 			if((mot.length() == 3 || mot.length() == 4) && (mot.charAt(2) == 'v' || mot.charAt(2) == '^')){
 
 				if(mot.length() == 4 && mot.charAt(3) == '\''){
-					a = true;
-					completerHand = true;
+					jouerAdv = true;
+					
 					cpt++;
 				}
-				else if(mot.length() == 4 && mot.charAt(3) != '\'')
+				else if(mot.length() == 4 && mot.charAt(3) != '\'') {
+					
 					return false;
-				else
-					a = false;
 
-				if(cpt > 1)
+				}
+				else {
+					jouerAdv = false;
+				}
+				if(cpt > 1) {
 					return false;
+				}
+
 
 				String unite = String.valueOf(mot.charAt(0));
 				String dizaine = String.valueOf(mot.charAt(1));
 
-				if(!(estNumerique(unite) && estNumerique(dizaine)))
+				if(!(Character.isDigit(unite.charAt(0)) && Character.isDigit(dizaine.charAt(0)))) {
+					
 					return false;
+					
+				}
 
 				int nb = Integer.parseInt(unite + dizaine);
 
@@ -138,20 +231,13 @@ public class Application {
 
 				Carte c = new Carte(nb);
 
-				boolean present = false;
-
-				for(Carte i : j.getHand()){
-
-					if(c.getValeur() == i.getValeur())
-						present = true;
-
+				if(!j.isInHand(c) || !c.estJouable(j, adv)) {
+					return false;
 				}
 
-				if(!present || !c.estJouable(j, adv))
-					return false;
 
 
-				if(!placer(String.valueOf(mot.charAt(2)), c, j, adv, a, true))
+				if(!placer(String.valueOf(mot.charAt(2)), c, j, adv, jouerAdv, true))
 					return false;
 
 			}
@@ -159,76 +245,15 @@ public class Application {
 				return false;
 		}
 
-		if(checkRedondance(tab))
+		if(checkRedondance(tab)) {
 			return false;
-
-		j.placerTest(j, tempAsc, true);
-		j.placerTest(j, tempDsc, false);
-		j.placerTest(adv, tempAscAdv, true);
-		j.placerTest(adv, tempDscAdv, false);
-
-		int i = 0;
-
-		for (String mot : tab) {
-
-			int nb = Integer.parseInt(String.valueOf(mot.charAt(0)) + String.valueOf(mot.charAt(1)));
-
-			Carte c = new Carte(nb);
-
-			if(mot.length() == 4)
-				a = true;
-			else
-				a = false;
-
-			if(!placer(String.valueOf(mot.charAt(2)), c, j, adv, a, false))
-				return false;
-
-			i++;
-
 		}
-
-		System.out.print(i + " cartes posees");
-
-		if(j.getDeck().size() == 0)
-			System.out.println("");
-
-		if(completerHand && !j.aGagne() && j.getDeck().size() > 0) {
-			if(j.getDeck().size() < 6 - j.getHand().size())
-				System.out.println(j.piocher(j.getDeck().size()));
-			else
-				System.out.println(j.piocher(6 - j.getHand().size()));
-		}
-		else if(!j.aGagne() && j.getDeck().size() > 0) {
-			if(j.getDeck().size() < 2)
-				System.out.println(j.piocher(j.getDeck().size()));
-			else
-				System.out.println(j.piocher(2));
-		}
-
+		
 		return true;
-
+		
 	}
-
-	private static boolean estNumerique(String s){
-
-		switch(s){
-
-			case "0":
-			case "1":
-			case "2":
-			case "3":
-			case "4":
-			case "5":
-			case "6":
-			case "7":
-			case "8":
-			case "9": return true;
-			default: return false;
-
-		}
-
-	}
-
+	
+	
 	private static boolean placer(String sens, Carte c, Joueur j, Joueur a, boolean adv, boolean test) {
 
 		if(!adv){
@@ -245,10 +270,12 @@ public class Application {
 			}
 			else {
 				if (c.estJouableDsc(j)) {
+					
 					if(test)
 						j.placerTest(j,c,false);
 					else
 						j.placer(j, c, false);
+					
 				}
 				else
 					return false;
@@ -282,5 +309,7 @@ public class Application {
 		return true;
 
 	}
+	
+	
 
 }
