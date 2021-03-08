@@ -98,7 +98,7 @@ public class Application {
 
 	/*
 	[brief] : Permet de vérifier si une carte est spécifiée plusieurs fois lors d'un coup
-	String[] [in] : commande lié au coup
+	String[] [in] : commande liée au coup
 	return : renvoie true si il y'a une redondance, false dans le cas contraire
 	 */
 	private static boolean checkRedondance(String[] tab){
@@ -119,7 +119,7 @@ public class Application {
 
 	/*
 	[brief] : permet de traiter un coup
-	String [in] : commande lié au coup
+	String [in] : commande liée au coup
 	Joueur [in-out] : joueur en cours
 	Joueur [in-out] : adversaire
 	return : renvoie true si le coup est valide, false dans le cas contraire
@@ -169,7 +169,7 @@ public class Application {
 
 		System.out.print(tab.length + " cartes posées");
 
-		if(completerHand && j.getDeck().size() > 0) { // Si la main doit être completer (coup sur une pile adverse)
+		if(completerHand && j.getDeck().size() > 0) { // Si la main doit être completé (coup sur une pile adverse)
 													   // et qu'il reste bien des cartes dans la pioche
 			if(j.getDeck().size() <= 6 - j.getHand().size()) {     // Si le nombre de cartes dans la pioche est inférieur au
 															       // nombre de cartes à piocher alors on pioche toutes
