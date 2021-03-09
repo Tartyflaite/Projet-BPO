@@ -9,7 +9,10 @@ import game.Carte;
 import game.Joueur;
 
 public class Application {
-
+	
+	@SuppressWarnings("resource")
+	static Scanner sc = new Scanner(System.in);
+	
 	public static void main(String[] args) {
 		Joueur nord = new Joueur("NORD");
 		Joueur sud = new Joueur("SUD ");
@@ -59,8 +62,7 @@ public class Application {
 	 */
 	private static boolean tourJoueur(Joueur j, Joueur adv) {
 		
-		@SuppressWarnings("resource")
-		Scanner sc = new Scanner(System.in);
+		
 		String s;
 		boolean coupValide=true;
 		

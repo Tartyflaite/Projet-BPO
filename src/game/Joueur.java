@@ -9,7 +9,7 @@ public class Joueur {
 	private Carte pileAsc; // dernière carte posée sur la pile ascendante
 	private Carte pileDsc; // dernière carte posée sur la pile descendante
 	private final String nom; // nom du joueur
-	
+	static Random pioche = new Random();
 	
 	public Joueur(String nom) {
 		this.deck= new ArrayList<>();
@@ -141,7 +141,7 @@ public class Joueur {
 	 */
 	public String piocher(int nb_cartes) {
 		int i;
-		Random pioche = new Random(); // La fonction piocher tire aléatoirement une carte dans la pioche ordonnée
+		 // La fonction piocher tire aléatoirement une carte dans la pioche ordonnée
 		for(i=0; i<nb_cartes && this.deck.size()>0;++i) {
 			Carte carte= deck.get(pioche.nextInt(this.deck.size()));
 			hand.add(carte);
