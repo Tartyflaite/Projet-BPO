@@ -11,7 +11,7 @@ import game.Joueur;
 public class Application {
 	
 	@SuppressWarnings("resource")
-	static Scanner sc = new Scanner(System.in);
+	private static Scanner sc = new Scanner(System.in);
 	
 	public static void main(String[] args) {
 		Joueur nord = new Joueur("NORD");
