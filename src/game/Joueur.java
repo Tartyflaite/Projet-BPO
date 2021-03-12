@@ -9,7 +9,7 @@ public class Joueur {
 	private Carte pileAsc; // dernière carte posée sur la pile ascendante
 	private Carte pileDsc; // dernière carte posée sur la pile descendante
 	private final String nom; // nom du joueur
-	static Random pioche = new Random();
+	private static Random pioche = new Random();
 	
 	public Joueur(String nom) {
 		this.deck= new ArrayList<>();
